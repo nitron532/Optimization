@@ -26,7 +26,9 @@ Instead, an inexact line search is used to find a good enough $\alpha$. It is pe
 This is done until a condition is met, like an acceptable reduction in $f$.
 ### Only a reduction in $f$ is not enough to achieve convergence<hr>
 Requiring only a reduction in $f$ is not enough to produce convergence to a minimum. Functions such as $f(x_k) = 5/k$ approach a limit at 0, but the minimum of this convex function is at -1:
+
 ![432](../Images/Pasted%20image%2020260324133546.png)
+
 To avoid this, we have to aim for a sufficient reduction in $f$, not just a reduction.
 
 ## Wolfe conditions <hr>
@@ -35,22 +37,27 @@ The Armijo condition says that $\alpha$ should satisfy this inequality:
 $$f(x_k + \alpha p_k) \leq f(x_k) + c_1\alpha\nabla f_k^T p_k$$
 where $c_1 \in (0,1)$ . 
 Denote the right side of Armijo condition as $l(\alpha)$. It is the equation of the tangent of $f$ at point $x_k$along direction $p_k$. 
+
 $c_1$ must not be 0 because then we only require the new iterate to be less than or equal to the previous, which clearly will not converge.
-$c_1$ must also not be 1, because if the function is convex, the tangent is below the function, and the new iterate can not be under the tangent if the entire left hand side function is above the right hand side.
+$c_1$ must also not be 1, because if the function is convex, the tangent is below the function, and the new iterate can not be under the tangent if the entire left hand side function is above the right hand side function (which is the tangent when $c_1 = 1$).
+
 As $c_1 \rightarrow 0$, there are more available $\alpha$ to experiment with, and longer steps are allowed.
 As $c_1 \rightarrow 1$, the interval is constricted to smaller steps, which are closer to the tangent (where there are no steps because the tangent is under a convex function, and the inequality can not be satisfied.)
 
-It is a linear function with negative slope $c_1\nabla f_k^T p_k$ . The constant $c_1$, in practice chosen to be quite small (e.g $10^-4$) allows $l(\alpha) \geq \phi (\alpha)$ for small positive $\alpha$. This condition requires that the decrease in $f$ is proportional to the step length $\alpha$ and the directional derivative $\nabla f^T_k p_k$. Small $\alpha$ are expected to have small reductions, and large $\alpha$ are expected to have large reductions.
+$l(\alpha)$ is a linear function with negative slope $c_1\nabla f_k^T p_k$ . The constant $c_1$, in practice chosen to be quite small (e.g $10^-4$) allows $l(\alpha) \geq \phi (\alpha)$ for small positive $\alpha$. This condition requires that the decrease in $f$ is proportional to the step length $\alpha$ and the directional derivative $\nabla f^T_k p_k$. Small $\alpha$ are expected to have small reductions, and large $\alpha$ are expected to have large reductions.
 
 However, since the Armijo condition is valid for unreasonably small $\alpha$, a second condition known as the curvature condition, is imposed that constrains:
 $$\nabla f(x_k+\alpha_k p_k)^Tp_k \geq c_2\nabla f_k^T p_k$$
 The left hand side is simply $\phi'(\alpha)$ , saying that the slope at the new iterate should be greater than or equal to the previous iterate's slope. 
+
 Geometrically, as we approach a minimum, the slope becomes more gentle, from a more steep negative, downhill, to a gentler, flatter, less negative slope (because we are reaching the bottom of the hill).
 The parameter $c_2 \in (0,1)$.
 As $c_2 \rightarrow 0$, we would like to be closer to the optimum.
 As $c_2 \rightarrow 1$, we allow a softer increase in slope from the previous iterate.
 For Newton/Quasi-Newton, $c_2 = 0.9$ is a common choice, whereas for nonlinear conjugate gradient, $c_2 = 0.1$ is a common choice.
+
 ![454](../Images/Pasted%20image%2020260324133616.png)
+
 Areas with steep downwards slope are not acceptable, since that means we could make a farther step length and achieve greater reductions.
 Once we arrive at areas with gentler / uphill slopes, we want to stop, because we can no longer gain reductions going in this direction.
 
@@ -71,6 +78,9 @@ Where $c \in (0, \frac{1}{2})$. Often used in Newton-type methods, but not Quasi
 Since any $\alpha$ that is sufficiently small satisfies the Armijo condition, we introduced the curvature condition to encourage larger step sizes if possible.
 Using backtracking, we start at a large step $\alpha$ which usually violates the Armijo condition (not enough reduction in $f$ for the step size $\alpha$), then reduce until it satisfies the condition. 
 This guarantees that we don't suffer from the original problem with the Armijo condition, but also get a sufficiently large decrease in $f$.
-This method of finding $\alpha$ only uses the Armijo condition (sufficient step size). Following the algorithm: ![626](../Images/Pasted%20image%2020260324133641.png)
+This method of finding $\alpha$ only uses the Armijo condition (sufficient step size). Following the algorithm: 
+
+![626](../Images/Pasted%20image%2020260324133641.png)
+
 We choose a large initial $\alpha$, then iteratively decrease it by a possibly changing $\rho$ until the Armijo condition is satisfied. By starting large, we achieve the largest possible valid-according-to-Armijo-constraint step size (largest when reducing by $\rho$ each iteration), gaining a sufficient decrease in $f$ while also avoiding too small of a step size, which the curvature condition (not used in this algorithm) helps to prevent.
 
