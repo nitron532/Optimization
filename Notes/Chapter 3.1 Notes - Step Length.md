@@ -25,8 +25,8 @@ Instead, an inexact line search is used to find a good enough $\alpha$. It is pe
 
 This is done until a condition is met, like an acceptable reduction in $f$.
 ### Only a reduction in $f$ is not enough to achieve convergence<hr>
-Requiring only a reduction in $f$ is not enough to produce convergence to a minimum. Functions such as $f(x_k) = 5/k$ approach a limit at 0, but the minimumof this convex function is at -1:
-![432](Images/Pasted%20image%2020260324133546.png)
+Requiring only a reduction in $f$ is not enough to produce convergence to a minimum. Functions such as $f(x_k) = 5/k$ approach a limit at 0, but the minimum of this convex function is at -1:
+![432](Notes/Images/Pasted%20image%2020260324133546.png)
 To avoid this, we have to aim for a sufficient reduction in $f$, not just a reduction.
 
 ## Wolfe conditions <hr>
@@ -50,7 +50,7 @@ The parameter $c_2 \in (0,1)$.
 As $c_2 \rightarrow 0$, we would like to be closer to the optimum.
 As $c_2 \rightarrow 1$, we allow a softer increase in slope from the previous iterate.
 For Newton/Quasi-Newton, $c_2 = 0.9$ is a common choice, whereas for nonlinear conjugate gradient, $c_2 = 0.1$ is a common choice.
-![454](Images/Pasted%20image%2020260324133616.png)
+![454](Notes/Images/Pasted%20image%2020260324133616.png)
 Areas with steep downwards slope are not acceptable, since that means we could make a farther step length and achieve greater reductions.
 Once we arrive at areas with gentler / uphill slopes, we want to stop, because we can no longer gain reductions going in this direction.
 
@@ -71,6 +71,6 @@ Where $c \in (0, \frac{1}{2})$. Often used in Newton-type methods, but not Quasi
 Since any $\alpha$ that is sufficiently small satisfies the Armijo condition, we introduced the curvature condition to encourage larger step sizes if possible.
 Using backtracking, we start at a large step $\alpha$ which usually violates the Armijo condition (not enough reduction in $f$ for the step size $\alpha$), then reduce until it satisfies the condition. 
 This guarantees that we don't suffer from the original problem with the Armijo condition, but also get a sufficiently large decrease in $f$.
-This method of finding $\alpha$ only uses the Armijo condition (sufficient step size). Following the algorithm: ![626](Images/Pasted%20image%2020260324133641.png)
+This method of finding $\alpha$ only uses the Armijo condition (sufficient step size). Following the algorithm: ![626](Notes/Images/Pasted%20image%2020260324133641.png)
 We choose a large initial $\alpha$, then iteratively decrease it by a possibly changing $\rho$ until the Armijo condition is satisfied. By starting large, we achieve the largest possible valid-according-to-Armijo-constraint step size (largest when reducing by $\rho$ each iteration), gaining a sufficient decrease in $f$ while also avoiding too small of a step size, which the curvature condition (not used in this algorithm) helps to prevent.
 
