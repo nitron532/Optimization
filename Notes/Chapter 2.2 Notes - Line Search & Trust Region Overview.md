@@ -28,10 +28,19 @@ Reliable when the difference between the objective $f(x_k+p)$ and its quadratic 
 Step size is usually $\alpha = 1$ and is only modified if insufficient results are produced
 
 ### Quasi-Newton <hr>
-Quasi-Newton uses an approximation of the Hessian $B_k$ in exact place of the Hessian in the Newton method.
-	- $B_{k+1}$ must satisfy the secant equation $$B_{k+1}s_k = y_k $$where $s_k$ = $x_{k+1} - x_k$ and $y_k = \nabla f_{k+1} - \nabla f_k$. Other constraints may be imposed, such as symmetry.
+Quasi-Newton uses an approximation of the Hessian $B_k$ in exact place of the Hessian in the Newton method. So this gives:
+$$p_k = -B_k^{-1} \nabla f_k$$
+The next approximation $B_{k+1}$ must satisfy the secant equation $$B_{k+1}s_k = y_k $$where
+- $s_k$ = $x_{k+1} - x_k$ 
+- $y_k = \nabla f_{k+1} - \nabla f_k$
 
-
+Other constraints may be imposed, such as symmetry, and that the difference between two approximations has low rank.
+$B_{k+1}$ can be obtained from the following two formulas:
+Symmetric rank-one formula, defined by
+$$B_{k+1} = B_k + \frac{(y_k-B_ks_k)(y_k-B_ks_k)^T}{(y_k-B_ks_k)^Ts_k}$$
+Or, the BFGS formula, defined by
+$$B_{k+1} = B_k - \frac{B_ks_ks_k^TB_k}{s_k^TB_ks_k} + \frac{y_ky_k^T}{y_k^Ts_k}$$
+Both produce approximations that satisfy the secant equation.
 ### Conjugate gradient <hr>
 [[Chapter 5 Notes]]
 
