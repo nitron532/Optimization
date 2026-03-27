@@ -18,7 +18,7 @@ At $x_{k+1}$ a new search direction and step length is computed using this minim
 Descent direction can be determined in many ways. If a direction $p_k$ is downhill, it satisfies $$p_k^T\nabla f_k = ||p_k||\ ||\nabla f_k||\cos(\theta_k) < 0$$ where $\theta_k$ is the angle between the descent direction $p_k$ and the gradient $\nabla f_k$.
 
 ### Gradient descent (steepest descent) <hr>
-$p_k = -\nabla f / ||\nabla f||$ , the normalized unit direction of steepest descent. Can be slow on more complicated problems
+$p_k = -\nabla f$, the direction of steepest descent. Can be slow on more complicated problems
 
 ### Newton (second order descent direction) <hr>
 Uses a quadratic model $$m_k(p) = f_k + p^T \nabla f_k + \frac{1}{2} p^T \nabla ^2f p \approx f(x+p)$$ then find $p$ that minimizes $m_k(p)$ using the explicit formula $$p_k^N = -(\nabla^2f_k)^{-1} \nabla f_k$$ 
@@ -56,10 +56,6 @@ To determine the step direction multiple methods can be used:
 If we set $B_k = 0$,  the minimization is now $$m_k(p) = f_k + p^T \nabla f_k$$
  subject to $||p||_2 \leq \Delta_k$. The closed form solution ends up being $$p_k = \frac{-\Delta_k \nabla f_k}{||\nabla f_k||} $$
 which is equivalent to the line search gradient descent method, with a step size of the trust region radius $\Delta_k$.
-
-
-
-
 
 ## Scaling <hr>
 A problem in unconstrained optimization is poorly scaled if changes to $x$ in one direction produce much larger variations in $f$ than they do with changes in other directions. For example, $$ f = 10^{100}x_2^2 + x_1^2 $$ is poorly scaled because a change in $x_2$ changes $f$ way more than a change in $x_1$ would.

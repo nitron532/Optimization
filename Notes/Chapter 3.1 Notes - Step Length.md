@@ -36,7 +36,7 @@ To avoid this, we have to aim for a sufficient reduction in $f$, not just a redu
 The Armijo condition says that $\alpha$ should satisfy this inequality:
 $$f(x_k + \alpha p_k) \leq f(x_k) + c_1\alpha\nabla f_k^T p_k$$
 where $c_1 \in (0,1)$ . 
-Denote the right side of Armijo condition as $l(\alpha)$. It is the equation of the tangent of $f$ at point $x_k$along direction $p_k$. 
+Denote the right side of Armijo condition as $l(\alpha)$. It is the equation of the tangent of $f$ at point $x_k$ along direction $p_k$. 
 
 $c_1$ must not be 0 because then we only require the new iterate to be less than or equal to the previous, which clearly will not converge.
 $c_1$ must also not be 1, because if the function is convex, the tangent is below the function, and the new iterate can not be under the tangent if the entire left hand side function is above the right hand side function (which is the tangent when $c_1 = 1$).
